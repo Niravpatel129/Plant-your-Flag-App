@@ -3,22 +3,30 @@ import "./Grid.css";
 
 import axios from "axios";
 
-import ca from "./flags/au.png";
-
 class Grid extends React.Component {
   gridDiamter = 10;
   items = [];
   state = {
-    clickedItems: []
+    clickedItems: [],
+    countryImg: ""
   };
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.getFlag();
+  }
+
+  getFlag = async () => {
     let res = await axios.get(
       "https://api.ipgeolocation.io/ipgeo?apiKey=14dbf6cd50244912b71b384696e9413a"
     );
+    let countryCode = res.data.country_code2.toLowerCase();
+    import(`./flags/${countryCode}.png`).then(dat => {
+      this.setState({ countryImg: dat.default });
+    });
 
-    console.log(res.data);
-  }
+    console.log(countryCode);
+    return res.data.country_code2;
+  };
 
   handleMouseClick = e => {
     this.setState({
@@ -37,7 +45,7 @@ class Grid extends React.Component {
               className="Grid"
               id={i}
               style={{
-                backgroundImage: `url(${ca})`,
+                backgroundImage: `url(${this.state.countryImg})`,
                 backgroundPosition: "center",
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat"
