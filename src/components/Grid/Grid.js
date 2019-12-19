@@ -1,6 +1,8 @@
 import React from "react";
 import "./Grid.css";
 
+import ca from "./flags/au.png";
+
 class Grid extends React.Component {
   gridDiamter = 10;
   items = [];
@@ -9,12 +11,9 @@ class Grid extends React.Component {
   };
 
   handleMouseClick = e => {
-    console.log(e.target.id);
     this.setState({
       clickedItems: [...this.state.clickedItems, parseInt(e.target.id, 0)]
     });
-
-    console.log(this.state.clickedItems);
   };
 
   renderGrid = () => {
@@ -27,7 +26,12 @@ class Grid extends React.Component {
               key={i.toString()}
               className="Grid"
               id={i}
-              style={{ backgroundColor: "red" }}
+              style={{
+                backgroundImage: `url(${ca})`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat"
+              }}
               onClick={this.handleMouseClick}
             ></div>
           );
