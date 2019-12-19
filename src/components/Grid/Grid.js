@@ -1,6 +1,8 @@
 import React from "react";
 import "./Grid.css";
 
+import axios from "axios";
+
 import ca from "./flags/au.png";
 
 class Grid extends React.Component {
@@ -9,6 +11,14 @@ class Grid extends React.Component {
   state = {
     clickedItems: []
   };
+
+  async componentDidMount() {
+    let res = await axios.get(
+      "https://api.ipgeolocation.io/ipgeo?apiKey=14dbf6cd50244912b71b384696e9413a"
+    );
+
+    console.log(res.data);
+  }
 
   handleMouseClick = e => {
     this.setState({
