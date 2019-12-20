@@ -1,4 +1,6 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Hosted at: http://fun-app-nirav.herokuapp.com/
+
+( just go on the site and place your flag on the internet! )
 
 ## Available Scripts
 
