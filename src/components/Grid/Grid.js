@@ -21,6 +21,10 @@ class Grid extends React.Component {
   };
 
   componentDidMount() {
+    setTimeout(() => {
+      this.setState({ Loading: false }); //FAILSAFE STARTER
+    }, 5000);
+
     if (!localStorage.getItem("visited")) {
       swal(
         "Purposeless Website!",
