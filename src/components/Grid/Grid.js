@@ -65,7 +65,7 @@ class Grid extends React.Component {
         swal(
           "Btw!",
           "Your adblock is blocking country locator, welcome to Canada i guess!",
-          "error"
+          "warning"
         );
       });
   };
