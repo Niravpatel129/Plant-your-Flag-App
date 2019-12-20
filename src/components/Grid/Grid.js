@@ -44,11 +44,11 @@ class Grid extends React.Component {
   };
 
   getFlag = async () => {
-    let res = await axios
+    await axios
       .get(
         "https://api.ipgeolocation.io/ipgeo?apiKey=14dbf6cd50244912b71b384696e9413a"
       )
-      .then(() => {
+      .then(res => {
         this.setState({
           localUserIP: res.data.ip.toString(),
           localCountryCode: res.data.country_code2.toLowerCase()
@@ -60,7 +60,8 @@ class Grid extends React.Component {
         });
         return res.data.country_code2;
       })
-      .catch(() => {
+      .catch(err => {
+        console.log(err);
         swal(
           "Btw!",
           "Your adblock is blocking country locator, welcome to Canada i guess!",
