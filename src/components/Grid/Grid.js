@@ -7,11 +7,26 @@ class Grid extends React.Component {
   gridDiamter = 10;
   items = [];
   state = {
+    localUserIP: "",
+    data: [],
     clickedItems: [],
-    countryImg: ""
+    localCountryCode: "",
+    countryImg: "",
+    clickPermssion: true
   };
 
   componentDidMount() {
+    axios.get("http://localhost:8080/api/getData").then(data => {
+      this.setState({ data: data.data });
+      for (let i = 0; i < this.state.data.length; i++) {
+        this.setState({
+          clickedItems: [
+            ...this.state.clickedItems,
+            this.state.data[i].LocationID
+          ]
+        });
+      }
+    });
     this.getFlag();
   }
 
@@ -19,16 +34,23 @@ class Grid extends React.Component {
     let res = await axios.get(
       "https://api.ipgeolocation.io/ipgeo?apiKey=14dbf6cd50244912b71b384696e9413a"
     );
+    this.setState({ localUserIP: res.data.ip.toString() });
+    this.setState({ localCountryCode: res.data.country_code2.toLowerCase() });
+
     let countryCode = res.data.country_code2.toLowerCase();
     import(`./flags/${countryCode}.png`).then(dat => {
       this.setState({ countryImg: dat.default });
     });
-
-    console.log(countryCode);
     return res.data.country_code2;
   };
 
   handleMouseClick = e => {
+    axios.post("http://localhost:8080/api/addData", {
+      LocationID: parseInt(e.target.id, 0),
+      IP: this.state.localUserIP,
+      CountryCode: this.state.localCountryCode
+    });
+
     this.setState({
       clickedItems: [...this.state.clickedItems, parseInt(e.target.id, 0)]
     });
