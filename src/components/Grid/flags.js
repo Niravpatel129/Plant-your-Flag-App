@@ -8,6 +8,7 @@ import xk from "./flags/xk.png";
 import ws from "./flags/ws.png";
 import vu from "./flags/vu.png";
 import dm from "./flags/dm.png";
+import au from "./flags/au.png";
 
 const getFlag = (value, param2) => {
   let newValue;
@@ -37,6 +38,8 @@ const getFlag = (value, param2) => {
       return vu;
     case "dm":
       return dm;
+    case "au":
+      return au;
     default:
       return ad;
   }
