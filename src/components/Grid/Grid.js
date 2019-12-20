@@ -5,6 +5,7 @@ import axios from "axios";
 
 import getFlag from "./flags";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import swal from "sweetalert";
 
 class Grid extends React.Component {
   gridDiamter = 10;
@@ -43,19 +44,29 @@ class Grid extends React.Component {
   };
 
   getFlag = async () => {
-    let res = await axios.get(
-      "https://api.ipgeolocation.io/ipgeo?apiKey=14dbf6cd50244912b71b384696e9413a"
-    );
-    this.setState({
-      localUserIP: res.data.ip.toString(),
-      localCountryCode: res.data.country_code2.toLowerCase()
-    });
+    let res = await axios
+      .get(
+        "https://api.ipgeolocation.io/ipgeo?apiKey=14dbf6cd50244912b71b384696e9413a"
+      )
+      .then(() => {
+        this.setState({
+          localUserIP: res.data.ip.toString(),
+          localCountryCode: res.data.country_code2.toLowerCase()
+        });
 
-    let countryCode = res.data.country_code2.toLowerCase();
-    import(`./flags/${countryCode}.png`).then(dat => {
-      this.setState({ countryImg: dat.default });
-    });
-    return res.data.country_code2;
+        let countryCode = res.data.country_code2.toLowerCase();
+        import(`./flags/${countryCode}.png`).then(dat => {
+          this.setState({ countryImg: dat.default });
+        });
+        return res.data.country_code2;
+      })
+      .catch(() => {
+        swal(
+          "Btw!",
+          "Your adblock is blocking country locator, welcome to Canada i guess!",
+          "error"
+        );
+      });
   };
 
   generateCountryImage = async cc => {

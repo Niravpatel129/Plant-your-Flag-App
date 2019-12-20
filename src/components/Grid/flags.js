@@ -47,7 +47,7 @@ const getFlag = (value, param2) => {
     case "au":
       return au;
     default:
-      return ad;
+      return ca;
   }
 };
 
