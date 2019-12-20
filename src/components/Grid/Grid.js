@@ -15,7 +15,6 @@ class Grid extends React.Component {
     data: [],
     clickedItems: [],
     localCountryCode: "",
-    countryImg: "",
     clickPermssion: true,
     secondLocalClicks: [],
     Loading: true
@@ -54,10 +53,6 @@ class Grid extends React.Component {
           localCountryCode: res.data.country_code2.toLowerCase()
         });
 
-        let countryCode = res.data.country_code2.toLowerCase();
-        import(`./flags/${countryCode}.png`).then(dat => {
-          this.setState({ countryImg: dat.default });
-        });
         return res.data.country_code2;
       })
       .catch(err => {
