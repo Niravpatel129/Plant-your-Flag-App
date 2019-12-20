@@ -14,7 +14,8 @@ class Grid extends React.Component {
     clickedItems: [],
     localCountryCode: "",
     countryImg: "",
-    clickPermssion: true
+    clickPermssion: true,
+    secondLocalClicks: []
   };
 
   componentDidMount() {
@@ -63,6 +64,14 @@ class Grid extends React.Component {
       IP: this.state.localUserIP,
       CountryCode: this.state.localCountryCode
     });
+
+    this.setState({
+      secondLocalClicks: [
+        ...this.state.secondLocalClicks,
+        parseInt(e.target.id, 0)
+      ]
+    });
+    console.log(this.state.secondLocalClicks);
   };
 
   renderGrid = () => {
@@ -75,19 +84,23 @@ class Grid extends React.Component {
           .map(function(e) {
             return e.LocationID;
           })
-          .includes(i)
+          .includes(i) ||
+        this.state.secondLocalClicks.includes(i)
       ) {
         if (
           i ===
-          this.state.clickedItems[
-            this.state.data
-              .map(function(e) {
-                return e.LocationID;
-              })
-              .indexOf(i)
-          ]
+            this.state.clickedItems[
+              this.state.data
+                .map(function(e) {
+                  return e.LocationID;
+                })
+                .indexOf(i)
+            ] ||
+          i ===
+            this.state.secondLocalClicks[
+              this.state.secondLocalClicks.indexOf(i)
+            ]
         ) {
-          console.log();
           this.items.push(
             <div
               key={i.toString()}
@@ -101,7 +114,8 @@ class Grid extends React.Component {
                         return e.LocationID;
                       })
                       .indexOf(i)
-                  ].CountryCode
+                  ],
+                  this.state.localCountryCode
                 )})`,
                 backgroundPosition: "center",
                 backgroundSize: "cover",
