@@ -3,6 +3,8 @@ import "./Grid.css";
 
 import axios from "axios";
 
+import getFlag from "./flags";
+
 class Grid extends React.Component {
   gridDiamter = 10;
   items = [];
@@ -16,6 +18,10 @@ class Grid extends React.Component {
   };
 
   componentDidMount() {
+    this.updateData();
+  }
+
+  updateData = () => {
     axios.get("http://localhost:8080/api/getData").then(data => {
       this.setState({ data: data.data });
       for (let i = 0; i < this.state.data.length; i++) {
@@ -28,14 +34,16 @@ class Grid extends React.Component {
       }
     });
     this.getFlag();
-  }
+  };
 
   getFlag = async () => {
     let res = await axios.get(
       "https://api.ipgeolocation.io/ipgeo?apiKey=14dbf6cd50244912b71b384696e9413a"
     );
-    this.setState({ localUserIP: res.data.ip.toString() });
-    this.setState({ localCountryCode: res.data.country_code2.toLowerCase() });
+    this.setState({
+      localUserIP: res.data.ip.toString(),
+      localCountryCode: res.data.country_code2.toLowerCase()
+    });
 
     let countryCode = res.data.country_code2.toLowerCase();
     import(`./flags/${countryCode}.png`).then(dat => {
@@ -44,30 +52,57 @@ class Grid extends React.Component {
     return res.data.country_code2;
   };
 
+  generateCountryImage = async cc => {
+    let res = await import(`./flags/${cc}.png`);
+    return res.default;
+  };
+
   handleMouseClick = e => {
     axios.post("http://localhost:8080/api/addData", {
       LocationID: parseInt(e.target.id, 0),
       IP: this.state.localUserIP,
       CountryCode: this.state.localCountryCode
     });
-
-    this.setState({
-      clickedItems: [...this.state.clickedItems, parseInt(e.target.id, 0)]
-    });
   };
 
   renderGrid = () => {
     this.items = [];
+
+    // old code
     for (let i = 0; i < window.outerWidth * 4; i++) {
-      if (this.state.clickedItems.includes(i)) {
-        if (i === this.state.clickedItems[this.state.clickedItems.indexOf(i)]) {
+      if (
+        this.state.data
+          .map(function(e) {
+            return e.LocationID;
+          })
+          .includes(i)
+      ) {
+        if (
+          i ===
+          this.state.clickedItems[
+            this.state.data
+              .map(function(e) {
+                return e.LocationID;
+              })
+              .indexOf(i)
+          ]
+        ) {
+          console.log();
           this.items.push(
             <div
               key={i.toString()}
               className="Grid"
               id={i}
               style={{
-                backgroundImage: `url(${this.state.countryImg})`,
+                backgroundImage: `url(${getFlag(
+                  this.state.data[
+                    this.state.data
+                      .map(function(e) {
+                        return e.LocationID;
+                      })
+                      .indexOf(i)
+                  ].CountryCode
+                )})`,
                 backgroundPosition: "center",
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat"
