@@ -1,4 +1,4 @@
-Hosted at: http://fun-app-nirav.herokuapp.com/
+Hosted at: http://fun-app-nirav.herokuapp.com/ OR www.iamniravpatel.com(might change in the future I usually change my domain to my more fun projects)
 
 ( just go on the site and place your flag on the internet! )
 ![demo](./demo/demo.png)
