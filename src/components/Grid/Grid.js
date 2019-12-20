@@ -4,6 +4,7 @@ import "./Grid.css";
 import axios from "axios";
 
 import getFlag from "./flags";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 class Grid extends React.Component {
   gridDiamter = 10;
@@ -15,7 +16,8 @@ class Grid extends React.Component {
     localCountryCode: "",
     countryImg: "",
     clickPermssion: true,
-    secondLocalClicks: []
+    secondLocalClicks: [],
+    Loading: true
   };
 
   componentDidMount() {
@@ -35,6 +37,7 @@ class Grid extends React.Component {
             ]
           });
         }
+        this.setState({ Loading: false });
       });
     this.getFlag();
   };
@@ -142,7 +145,11 @@ class Grid extends React.Component {
   };
 
   render() {
-    return <div className="Page">{this.renderGrid()}</div>;
+    if (!this.state.Loading) {
+      return <div className="Page">{this.renderGrid()}</div>;
+    } else {
+      return <LoadingSpinner />;
+    }
   }
 }
 

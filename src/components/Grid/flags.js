@@ -9,6 +9,8 @@ import ws from "./flags/ws.png";
 import vu from "./flags/vu.png";
 import dm from "./flags/dm.png";
 import au from "./flags/au.png";
+import ba from "./flags/ba.png";
+import de from "./flags/de.png";
 
 const getFlag = (value, param2) => {
   let newValue;
@@ -20,10 +22,14 @@ const getFlag = (value, param2) => {
   switch (newValue) {
     case "ad":
       return ad;
+    case "de":
+      return de;
     case "us":
       return us;
     case "ca":
       return ca;
+    case "ba":
+      return ba;
     case "zw":
       return zw;
     case "za":
