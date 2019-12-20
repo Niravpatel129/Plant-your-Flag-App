@@ -23,17 +23,19 @@ class Grid extends React.Component {
   }
 
   updateData = () => {
-    axios.get("http://localhost:8080/api/getData").then(data => {
-      this.setState({ data: data.data });
-      for (let i = 0; i < this.state.data.length; i++) {
-        this.setState({
-          clickedItems: [
-            ...this.state.clickedItems,
-            this.state.data[i].LocationID
-          ]
-        });
-      }
-    });
+    axios
+      .get("https://backend-reddit-app.herokuapp.com/api/getData")
+      .then(data => {
+        this.setState({ data: data.data });
+        for (let i = 0; i < this.state.data.length; i++) {
+          this.setState({
+            clickedItems: [
+              ...this.state.clickedItems,
+              this.state.data[i].LocationID
+            ]
+          });
+        }
+      });
     this.getFlag();
   };
 
@@ -59,7 +61,7 @@ class Grid extends React.Component {
   };
 
   handleMouseClick = e => {
-    axios.post("http://localhost:8080/api/addData", {
+    axios.post("https://backend-reddit-app.herokuapp.com/api/addData", {
       LocationID: parseInt(e.target.id, 0),
       IP: this.state.localUserIP,
       CountryCode: this.state.localCountryCode
