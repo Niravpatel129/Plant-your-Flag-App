@@ -21,6 +21,14 @@ class Grid extends React.Component {
   };
 
   componentDidMount() {
+    if (!localStorage.getItem("visited")) {
+      swal(
+        "Purposeless Website!",
+        "Just click on a square and your country flag will claim it!"
+      );
+    }
+    localStorage.setItem("visited", true);
+
     this.updateData();
   }
 
