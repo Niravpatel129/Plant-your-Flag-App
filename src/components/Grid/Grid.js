@@ -41,7 +41,7 @@ class Grid extends React.Component {
       .get("https://backend-reddit-app.herokuapp.com/api/getData")
       .then(data => {
         this.setState({ data: data.data });
-        for (let i = 0; i < this.state.data.length; i++) {
+        for (let i = 0; i < this.state?.data.length; i++) {
           this.setState({
             clickedItems: [
               ...this.state.clickedItems,
